@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +27,17 @@ class MyApp extends StatelessWidget {
 class IsiSlicing extends StatelessWidget {
   const IsiSlicing({super.key});
 
+  final List<String> imagePaths = const [
+    'assets/images/Decor1.jpg',
+    'assets/images/Decor2.jpg',
+    'assets/images/Decor3.jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     void onPressed() {
-      print('Ikon ditekan');
+      print('Search icon tapped');
     }
-    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -40,7 +46,7 @@ class IsiSlicing extends StatelessWidget {
         leading: IconButton(
           onPressed: onPressed,
           icon: Padding(
-            padding: EdgeInsets.all(9),
+            padding: const EdgeInsets.all(9),
             child: SizedBox(
               child: Image.asset(
                 'assets/images/menu.png',
@@ -56,17 +62,15 @@ class IsiSlicing extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 16,
-            fontVariations: [
-              FontVariation('wght', 500),
-            ],
+            fontVariations: [FontVariation('wght', 500)],
           ),
         ),
         actions: [
           IconButton(
             onPressed: onPressed,
-            constraints: BoxConstraints(),
+            constraints: const BoxConstraints(),
             icon: Padding(
-              padding: EdgeInsets.all(9),
+              padding: const EdgeInsets.all(9),
               child: SizedBox(
                 child: Image.asset(
                   'assets/images/search.png',
@@ -76,24 +80,32 @@ class IsiSlicing extends StatelessWidget {
               ),
             ),
           ),
-        ], //actions
+        ],
       ),
       body: Center(
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(18.0),
-              child: Container(
+            const SizedBox(height: 16),
+            CarouselSlider(
+              options: CarouselOptions(
                 height: 343,
-                width: 335,
-                color: Colors.white,
-                child: Image.asset(
-                  'assets/images/Decor1.jpg',
-                  fit: BoxFit.cover,
-                ),
+                enlargeCenterPage: true,
+                autoPlay: true,
+                viewportFraction: 0.95,
+                enableInfiniteScroll: true,
               ),
+              items: imagePaths.map((path) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(18.0),
+                  child: Image.asset(
+                    path,
+                    fit: BoxFit.cover,
+                    width: 335,
+                  ),
+                );
+              }).toList(),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -124,32 +136,32 @@ class IsiSlicing extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Material(
                   color: Colors.transparent,
-                  child:InkWell(
+                  child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: onPressed,
-                  child: Container(
-                    height: 40,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF7A7469),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
+                    child: Container(
+                      height: 40,
+                      width: 80,
+                      decoration: BoxDecoration(
                         color: const Color(0xFF7A7469),
-                        width: 1,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: const Color(0xFF7A7469),
+                          width: 1,
+                        ),
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/right-arrow.png',
+                          height: 31,
+                          width: 31,
+                          color: const Color(0xFFFFFFFF),
+                        ),
                       ),
                     ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/right-arrow.png',
-                        height: 31,
-                        width: 31,
-                        color: const Color(0xFFFFFFFF),
-                      ),
-                    ),
-                  ),
                   ),
                 ),
               ],
@@ -159,7 +171,7 @@ class IsiSlicing extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: 50,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
             top: BorderSide(
@@ -169,7 +181,7 @@ class IsiSlicing extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -217,8 +229,7 @@ class IsiSlicing extends StatelessWidget {
                   width: 25,
                   decoration: BoxDecoration(
                     border: Border.all(width: 2, color: Colors.black),
-                    borderRadius:
-                        BorderRadius.circular(18), // setengah dari height/width
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
