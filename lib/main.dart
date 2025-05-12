@@ -25,13 +25,16 @@ class MyApp extends StatelessWidget {
 }
 
 class IsiSlicing extends StatelessWidget {
-  const IsiSlicing({super.key});
+  IsiSlicing({super.key});
 
   final List<String> imagePaths = const [
     'assets/images/Decor1.jpg',
     'assets/images/Decor2.jpg',
     'assets/images/Decor3.jpg',
   ];
+
+  CarouselSliderController buttonCarouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +43,19 @@ class IsiSlicing extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         backgroundColor: Colors.white,
+        toolbarHeight: 49,
         leading: IconButton(
           onPressed: onPressed,
           icon: Padding(
-            padding: const EdgeInsets.all(9),
+            padding: const EdgeInsets.only(left: 5),
             child: SizedBox(
               child: Image.asset(
                 'assets/images/menu.png',
-                height: 20,
-                width: 20,
+                height: 17,
+                width: 17,
               ),
             ),
           ),
@@ -68,14 +72,14 @@ class IsiSlicing extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: onPressed,
-            constraints: const BoxConstraints(),
+            
             icon: Padding(
-              padding: const EdgeInsets.all(9),
+              padding: const EdgeInsets.only(right: 9),
               child: SizedBox(
                 child: Image.asset(
                   'assets/images/search.png',
-                  height: 24,
-                  width: 24,
+                  height: 18,
+                  width: 18,
                 ),
               ),
             ),
@@ -87,10 +91,10 @@ class IsiSlicing extends StatelessWidget {
           children: [
             const SizedBox(height: 16),
             CarouselSlider(
+              carouselController: buttonCarouselController,
               options: CarouselOptions(
                 height: 343,
                 enlargeCenterPage: true,
-                autoPlay: true,
                 viewportFraction: 0.95,
                 enableInfiniteScroll: true,
               ),
@@ -109,61 +113,51 @@ class IsiSlicing extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: onPressed,
-                    child: Container(
-                      height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
+                SizedBox(
+                  width: 80,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () => buttonCarouselController.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.linear),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: const Color(0xFFB8AF9E),
-                          width: 1,
-                        ),
+                        side: const BorderSide(
+                            color: Color(0xFF7A7469), width: 1.5),
                       ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/left-arrow.png',
-                          height: 31,
-                          width: 31,
-                          color: const Color(0xFF7A7469),
-                        ),
-                      ),
+                    ),
+                    child: Image.asset(
+                      'assets/images/left-arrow.png',
+                      height: 24,
+                      width: 24,
+                      color: const Color(0xFF707070),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: onPressed,
-                    child: Container(
-                      height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF7A7469),
+                SizedBox(width: 16),
+                SizedBox(
+                  width: 80,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () => buttonCarouselController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.linear),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF7A7469),
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: const Color(0xFF7A7469),
-                          width: 1,
-                        ),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/right-arrow.png',
-                          height: 31,
-                          width: 31,
-                          color: const Color(0xFFFFFFFF),
-                        ),
                       ),
                     ),
+                    child: Image.asset(
+                      'assets/images/right-arrow.png',
+                      height: 24,
+                      width: 24,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ],
