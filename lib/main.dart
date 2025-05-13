@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,48 +16,47 @@ class MyApp extends StatelessWidget {
       title: 'Slicing Figma',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 255, 255, 255)),
+          seedColor: const Color.fromARGB(255, 255, 255, 255),
+        ),
         useMaterial3: true,
       ),
-      home: IsiSlicing(),
+      home: const IsiSlicing(),
     );
   }
 }
 
-class IsiSlicing extends StatelessWidget {
-  IsiSlicing({super.key});
+class IsiSlicing extends StatefulWidget {
+  const IsiSlicing({super.key});
+
+  @override
+  State<IsiSlicing> createState() => _IsiSlicingState();
+}
+
+class _IsiSlicingState extends State<IsiSlicing> {
+  int activeIndex = 0;
 
   final List<String> imagePaths = const [
     'assets/images/Decor1.jpg',
     'assets/images/Decor2.jpg',
     'assets/images/Decor3.jpg',
+    'assets/images/Decor4.jpg',
+    'assets/images/Decor5.jpg'
   ];
 
-  CarouselSliderController buttonCarouselController =
+  final CarouselSliderController buttonCarouselController =
       CarouselSliderController();
-
   @override
   Widget build(BuildContext context) {
-    void onPressed() {
-      print('Search icon tapped');
-    }
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: 49,
         leading: IconButton(
-          onPressed: onPressed,
-          icon: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: SizedBox(
-              child: Image.asset(
-                'assets/images/menu.png',
-                height: 17,
-                width: 17,
-              ),
-            ),
+          onPressed: () {},
+          icon: Image.asset(
+            'assets/images/menu.png',
+            height: 17,
+            width: 17,
           ),
         ),
         centerTitle: true,
@@ -71,22 +70,17 @@ class IsiSlicing extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: onPressed,
-            
-            icon: Padding(
-              padding: const EdgeInsets.only(right: 9),
-              child: SizedBox(
-                child: Image.asset(
-                  'assets/images/search.png',
-                  height: 18,
-                  width: 18,
-                ),
-              ),
+            onPressed: () {},
+            padding: const EdgeInsets.only(right: 16),
+            icon: Image.asset(
+              'assets/images/search.png',
+              height: 18,
+              width: 18,
             ),
           ),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 16),
@@ -97,6 +91,8 @@ class IsiSlicing extends StatelessWidget {
                 enlargeCenterPage: true,
                 viewportFraction: 0.95,
                 enableInfiniteScroll: true,
+                onPageChanged: (index, reason) =>
+                    setState(() => activeIndex = index),
               ),
               items: imagePaths.map((path) {
                 return ClipRRect(
@@ -109,7 +105,9 @@ class IsiSlicing extends StatelessWidget {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
+            buildIndicator(),
+            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -118,8 +116,9 @@ class IsiSlicing extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () => buttonCarouselController.previousPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.linear),
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -136,14 +135,15 @@ class IsiSlicing extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 SizedBox(
                   width: 80,
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () => buttonCarouselController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.linear),
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF7A7469),
                       shape: RoundedRectangleBorder(
@@ -154,17 +154,60 @@ class IsiSlicing extends StatelessWidget {
                       'assets/images/right-arrow.png',
                       height: 24,
                       width: 24,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Colors.white,
                     ),
                   ),
-                )
+                ),
               ],
+            ),
+            SizedBox(height: 18),
+            Text(
+              'Minimalist Furniture',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 28,
+                fontVariations: [FontVariation('wght', 600)],
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Bringing Simplicity, Elegance and Thoughtful Design\n to Your Home, One Piece of the Finest Quality.',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 11,
+                fontVariations: [FontVariation('wght', 300)],
+                letterSpacing: 0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 183,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  'See Next',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 15,
+                    fontVariations: [FontVariation('wght', 500)],
+                    color: Colors.white
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF7A7469),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        height: 50,
+        height: 60,
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
@@ -175,12 +218,12 @@ class IsiSlicing extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: onPressed,
+                onPressed: () {},
                 padding: EdgeInsets.zero,
                 icon: Image.asset(
                   'assets/images/house.png',
@@ -189,7 +232,7 @@ class IsiSlicing extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () {},
                 padding: EdgeInsets.zero,
                 icon: Image.asset(
                   'assets/images/search.png',
@@ -198,7 +241,7 @@ class IsiSlicing extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () {},
                 padding: EdgeInsets.zero,
                 icon: Image.asset(
                   'assets/images/shopping-cart.png',
@@ -207,7 +250,7 @@ class IsiSlicing extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () {},
                 padding: EdgeInsets.zero,
                 icon: Image.asset(
                   'assets/images/settings.png',
@@ -216,7 +259,7 @@ class IsiSlicing extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () {},
                 padding: EdgeInsets.zero,
                 icon: Container(
                   height: 25,
@@ -242,4 +285,16 @@ class IsiSlicing extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+        activeIndex: activeIndex,
+        count: imagePaths.length,
+        effect: WormEffect(
+          spacing: 3,
+          dotWidth: 8,
+          dotHeight: 4,
+          activeDotColor: const Color(0xFF7A7469),
+          dotColor: const Color(0xFFD9D9D9),
+        ),
+      );
 }
